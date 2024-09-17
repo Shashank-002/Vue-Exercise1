@@ -7,8 +7,13 @@
         <button @click="calculateAge">Calculate Age</button>
         <p v-if="age !== null">{{ age }} years old</p>
         <button @click="validateAge">Validate Age</button>
-        <p v-if="isValidated && age !== null && age < 18">You are under age</p>
-        <p v-else-if="isValidated && age !== null && age >= 18">you are ok to use the website</p>
+        <p v-if="isValidated && age !== null && age < 18" :class="{ 'text-red': age < 18 }">You are under age</p>
+        <p v-else-if="isValidated && age !== null && age >= 18" :class="{ 'text-green': age >= 18 }">you are ok to use
+            the website</p>
+        <h2>Users List</h2>
+        <li v-for="(user, index) in users" :key="index">
+            UserName: {{ user.Name }}, Age: {{ user.Age }}
+        </li>
     </div>
 </template>
 
@@ -21,8 +26,13 @@ export default {
             address: 'Connaught place, New Delhi',
             dob: '2000-05-18',
             age: null,
-            isValidated: false
-        }
+            isValidated: false,
+
+            users: [
+                { Name: 'Akash', Age: 20 },
+                { Name: 'Payal', Age: 21 }
+            ]
+        };
     },
     methods: {
         calculateAge() {
@@ -36,8 +46,23 @@ export default {
             if (this.age === null) {
                 this.calculateAge();
             }
-            this.isValidated= true
+            this.isValidated = true
         }
     }
 }
+
 </script>
+
+<style scoped>
+.text-red {
+    color: red;
+}
+
+.text-green {
+    color: green;
+}
+
+li {
+    list-style: none;
+}
+</style>
