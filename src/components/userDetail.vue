@@ -6,7 +6,7 @@
         <p><strong>DOB: </strong>{{ dob }}</p>
         <button @click="calculateAge">Calculate Age</button>
         <p v-if="age !== null">{{ age }} years old</p>
-        <button @click="validateAge">Validate Age</button>
+        <button v-if="age !== null" @click="validateAge">Validate Age</button>
         <p v-if="isValidated && age !== null && age < 18" :class="{ 'text-red': age < 18 }">You are under age</p>
         <p v-else-if="isValidated && age !== null && age >= 18" :class="{ 'text-green': age >= 18 }">you are ok to use
             the website</p>
@@ -29,8 +29,8 @@ export default {
             isValidated: false,
 
             users: [
-                { Name: 'Akash', Age: 20 },
-                { Name: 'Payal', Age: 21 }
+                { Name: 'rahul', Age: 24 },
+                { Name: 'rohit', Age: 20 }
             ]
         };
     },
