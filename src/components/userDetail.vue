@@ -5,17 +5,20 @@
         <p><strong>Address:</strong> {{ address }}</p>
         <p><strong>DOB: </strong>{{ dob }}</p>
         <button @click="calculateAge">Calculate Age</button>
-        <p v-if="age !== null">{{ age }} years old</p>
-        <button v-if="age !== null" @click="validateAge">Validate Age</button>
-        <p v-if="isValidated && age !== null && age < 18" :class="{ 'text-red': age < 18 }">You are under age</p>
-        <p v-else-if="isValidated && age !== null && age >= 18" :class="{ 'text-green': age >= 18 }">you are ok to use
-            the website</p>
+        <p v-if="age">{{ age }} years old</p>
+        <div v-show="age"> 
+            <button @click="validateAge">Validate Age</button>
+            <p v-if="isValidated  === true" class="success">You are ok to use the website</p>
+            <p v-if="isValidated === false" class="error">You are under age</p>
+        </div>
+
         <h2>Users List</h2>
         <li v-for="(user, index) in users" :key="index">
-            UserName: {{ user.Name }}, Age: {{ user.Age }}
+            <strong>UserName: </strong> {{ user.Name }}, <strong>Age:</strong> {{ user.Age }}
         </li>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -26,7 +29,7 @@ export default {
             address: 'Connaught place, New Delhi',
             dob: '2000-05-18',
             age: null,
-            isValidated: false,
+            isValidated: null, 
 
             users: [
                 { Name: 'rahul', Age: 24 },
@@ -41,24 +44,25 @@ export default {
             const diffInMiliSecond = today - dob;
             const age = Math.floor(diffInMiliSecond / (1000 * 60 * 60 * 24 * 365.25));
             this.age = age;
+            this.isValidated = null; 
         },
         validateAge() {
-            if (this.age === null) {
-                this.calculateAge();
+            if (this.age) {
+                this.isValidated = this.age >= 18;
             }
-            this.isValidated = true
         }
     }
 }
 
+
 </script>
 
 <style scoped>
-.text-red {
+.error {
     color: red;
 }
 
-.text-green {
+.success {
     color: green;
 }
 
