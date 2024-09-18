@@ -6,10 +6,13 @@
         <p><strong>DOB: </strong>{{ dob }}</p>
         <button @click="calculateAge">Calculate Age</button>
         <p v-if="age">{{ age }} years old</p>
-        <div v-show="age"> 
+        <div v-show="age">
             <button @click="validateAge">Validate Age</button>
-            <p v-if="isValidated  === true" class="success">You are ok to use the website</p>
-            <p v-if="isValidated === false" class="error">You are under age</p>
+            <div v-show="isShow">
+                <p v-if="isValidated" class="success">You are ok to use the website</p>
+                <p v-else class="error">You are under age</p>
+            </div>
+
         </div>
 
         <h2>Users List</h2>
@@ -27,9 +30,10 @@ export default {
         return {
             userName: 'Ashish',
             address: 'Connaught place, New Delhi',
-            dob: '2000-05-18',
+            dob: '2010-05-18',
             age: null,
-            isValidated: null, 
+            isValidated: null,
+            isShow:false,
 
             users: [
                 { Name: 'rahul', Age: 24 },
@@ -44,11 +48,13 @@ export default {
             const diffInMiliSecond = today - dob;
             const age = Math.floor(diffInMiliSecond / (1000 * 60 * 60 * 24 * 365.25));
             this.age = age;
-            this.isValidated = null; 
+            this.isValidated = null;
+            this.isShow=false;
         },
         validateAge() {
             if (this.age) {
                 this.isValidated = this.age >= 18;
+                this.isShow = true;
             }
         }
     }
